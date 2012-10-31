@@ -110,6 +110,33 @@
 }
 
 
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated
+{
+	[super setEditing:editing animated:animated];
+	[self.tableView setEditing:editing animated:animated];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+	// Unselect the selected row if any
+	NSIndexPath*	selection = [self.tableView indexPathForSelectedRow];
+	if (selection)
+		[self.tableView deselectRowAtIndexPath:selection animated:YES];
+    
+	[self.tableView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+	//	The scrollbars won't flash unless the tableview is long enough.
+	[self.tableView flashScrollIndicators];
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+	[self.tableView flashScrollIndicators];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
